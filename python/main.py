@@ -157,12 +157,37 @@ Paste JSON here:<p/><textarea name=json cols=80 rows=24></textarea>
     		# Passes if no valid moves.
     		self.response.write("PASS")
     	else:
-    		# Chooses a valid move randomly if available.
+    			# Chooses a valid move randomly if available.
                 # TO STEP STUDENTS:
                 # You'll probably want to change how this works, to do something
                 # more clever than just picking a random move.
-	    	move = random.choice(valid_moves)
-    		self.response.write(PrettyMove(move))
+			
+			num = [2,3,4,5,6,7,8]
+			candidates = []
+			for m in moves:
+    			if  m["Where"] == [1,1] or m["Where"] == [1,8] or  m["Where"] == [8,1] or m["Where"] == [8,8]:
+        			candidates.append(m["Where"])
+    
+			if len(candidates) > 0:
+    			move = random.choice(candidates)
+    			return move
+
+			elif len(candidates) == 0:
+    			for l in moves:
+        			if m["Where"][0] in num or  m["Where"][1] in num:
+           			candidates.append(m["Where"])
+    			if len(candidates) > 0:
+        			move = random.choice(candidates)
+        			return move
+    
+    			elif len(candidates) == 0:
+        			move = random.choice(valid_moves)
+        			return move 
+
+
+
+
+			self.response.write(PrettyMove(move))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
